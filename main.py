@@ -75,9 +75,14 @@ cfg.MODEL.DEVICE='cpu'
 cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
 
 dict = {}
+newdict = {}
 
 v = preconfig()
 #v = postconfig()
 
 #train()
 prediction()
+
+for i in dict.keys():
+    for j in i:
+        newdict.update({j : dict[i]})
