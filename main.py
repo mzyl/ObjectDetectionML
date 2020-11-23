@@ -5,6 +5,7 @@ import detectron2
 import numpy as np
 import os, json, random
 
+from pandas import DataFrame
 from detectron2 import model_zoo
 from detectron2.engine import DefaultTrainer
 from detectron2.engine import DefaultPredictor
@@ -34,10 +35,14 @@ def train():
   cfg.DATALOADER.NUM_WORKERS = 2
   cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml") # Let training initialize from model zoo
   cfg.SOLVER.IMS_PER_BATCH = 2
-  cfg.SOLVER.BASE_LR = 0.00025 # pick a good learning rate
-  cfg.SOLVER.MAX_ITER = 300 # 300 iterations seems good enough for this dataset; you will need to train longer for a practical dataset
-  cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 # faster, and good enought for this dataset (default: 512)
-  cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 # only has one class (raccoon)
+  # pick a good learning rate
+  cfg.SOLVER.BASE_LR = 0.00025 
+  # 300 iterations seems good enough for this dataset; you will need to train longer for a practical dataset
+  cfg.SOLVER.MAX_ITER = 300 
+  # faster, and good enought for this dataset (default: 512)
+  cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 
+  # only has one class (raccoon)
+  cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 
 
   os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
   trainer = DefaultTrainer(cfg)
@@ -48,14 +53,14 @@ def prediction():
   predictor = DefaultPredictor(cfg)
   outputs = predictor(img)
 
-#  print(outputs["instances"].pred_classes)
+  #print(outputs["instances"].pred_classes)
   count = 0
   for i in outputs["instances"].pred_classes:
-    dict.update({outputs["instances"].pred_boxes[count] : v.metadata.thing_classes[i]})
-    print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
+    position_dict.update({outputs["instances"].pred_boxes[count] : v.metadata.thing_classes[i]})
+    #print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
     count+=1
-#  print(outputs["instances"].pred_boxes)
-  print(dict)
+  #print(outputs["instances"].pred_boxes)
+  #print(position_dict)
 
   out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
   cv2.imwrite(output_path, out.get_image()[:, :, ::-1])
@@ -74,8 +79,8 @@ cfg = get_cfg()
 cfg.MODEL.DEVICE='cpu'
 cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
 
-dict = {}
-newdict = {}
+position_dict = {}
+new_dict = {}
 
 v = preconfig()
 #v = postconfig()
@@ -83,6 +88,25 @@ v = preconfig()
 #train()
 prediction()
 
-for i in dict.keys():
+for i in position_dict.keys():
   for j in i:
-    newdict.update({j : dict[i]})
+    new_dict.update({j : position_dict[i]})
+
+df = DataFrame([(i, j) for i, j in new_dict.items()])
+df = df.rename(columns={0: "BBox", 1: "Label"})
+df = df.iloc[:, ::-1]
+df['BBox'] = [i.numpy().round(2) for i in df['BBox']]
+#df.to_csv('out.csv', index=False)
+
+vals = []
+for i in range(df['BBox'].size):
+  x1, y1, x2, y2 = df['BBox'][i][0], df['BBox'][i][1], df['BBox'][i][2], df['BBox'][i][3]
+  vals.append([((x2/2)+x1).round(2), ((y2/2)+y1).round(2)])
+
+df['Position'] = vals
+
+print(df)
+
+
+
+
