@@ -18,49 +18,49 @@ setup_logger()
 
 
 def preconfig():
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
-    return Visualizer(img[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.0)
+  cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
+  cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+  return Visualizer(img[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.0)
 
 def postconfig():
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final_raccoon.pth")
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
-    return Visualizer(img[:, :, ::-1], metadata=raccoon_metadata, scale=1.0)
+  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final_raccoon.pth")
+  cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
+  return Visualizer(img[:, :, ::-1], metadata=raccoon_metadata, scale=1.0)
 
 
 def train():
-    cfg.DATASETS.TRAIN = ("raccoon_train",)
-    cfg.DATASETS.TEST = ()
-    cfg.DATALOADER.NUM_WORKERS = 2
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml") # Let training initialize from model zoo
-    cfg.SOLVER.IMS_PER_BATCH = 2
-    cfg.SOLVER.BASE_LR = 0.00025 # pick a good learning rate
-    cfg.SOLVER.MAX_ITER = 300 # 300 iterations seems good enough for this dataset; you will need to train longer for a practical dataset
-    cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 # faster, and good enought for this dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 # only has one class (raccoon)
+  cfg.DATASETS.TRAIN = ("raccoon_train",)
+  cfg.DATASETS.TEST = ()
+  cfg.DATALOADER.NUM_WORKERS = 2
+  cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml") # Let training initialize from model zoo
+  cfg.SOLVER.IMS_PER_BATCH = 2
+  cfg.SOLVER.BASE_LR = 0.00025 # pick a good learning rate
+  cfg.SOLVER.MAX_ITER = 300 # 300 iterations seems good enough for this dataset; you will need to train longer for a practical dataset
+  cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 # faster, and good enought for this dataset (default: 512)
+  cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 # only has one class (raccoon)
 
-    os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
-    trainer = DefaultTrainer(cfg)
-    trainer.resume_or_load(resume=False)
+  os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
+  trainer = DefaultTrainer(cfg)
+  trainer.resume_or_load(resume=False)
 
 
 def prediction():
-    predictor = DefaultPredictor(cfg)
-    outputs = predictor(img)
+  predictor = DefaultPredictor(cfg)
+  outputs = predictor(img)
 
-#    print(outputs["instances"].pred_classes)
-    count = 0
-    for i in outputs["instances"].pred_classes:
-        dict.update({outputs["instances"].pred_boxes[count] : v.metadata.thing_classes[i]})
-        print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
-        count+=1
-#    print(outputs["instances"].pred_boxes)
-    print(dict)
+#  print(outputs["instances"].pred_classes)
+  count = 0
+  for i in outputs["instances"].pred_classes:
+    dict.update({outputs["instances"].pred_boxes[count] : v.metadata.thing_classes[i]})
+    print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
+    count+=1
+#  print(outputs["instances"].pred_boxes)
+  print(dict)
 
-    out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
-    cv2.imwrite(output_path, out.get_image()[:, :, ::-1])
-    return outputs
-    
+  out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
+  cv2.imwrite(output_path, out.get_image()[:, :, ::-1])
+  return outputs
+  
 
 input_path = "./input/image.jpg"
 output_path = "./output/a.out.jpg"
@@ -84,5 +84,5 @@ v = preconfig()
 prediction()
 
 for i in dict.keys():
-    for j in i:
-        newdict.update({j : dict[i]})
+  for j in i:
+    newdict.update({j : dict[i]})
