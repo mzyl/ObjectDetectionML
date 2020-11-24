@@ -60,7 +60,7 @@ def prediction():
     #print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
     count+=1
   #print(outputs["instances"].pred_boxes)
-  #print(position_dict)
+  print(position_dict)
 
   out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
   cv2.imwrite(output_path, out.get_image()[:, :, ::-1])
@@ -79,7 +79,9 @@ cfg = get_cfg()
 cfg.MODEL.DEVICE='cpu'
 cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
 
+# original dictionary for labels and "Boxes" of tensors
 position_dict = {}
+# new dictionary for storing original while removing "Boxes" leaving behind tensors
 new_dict = {}
 
 v = preconfig()
@@ -88,6 +90,7 @@ v = preconfig()
 #train()
 prediction()
 
+# strip "Boxes" from tensor Bounding Box
 for i in position_dict.keys():
   for j in i:
     new_dict.update({j : position_dict[i]})
