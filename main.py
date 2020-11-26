@@ -99,15 +99,22 @@ df = DataFrame([(i, j) for i, j in new_dict.items()])
 df = df.rename(columns={0: "BBox", 1: "Label"})
 df = df.iloc[:, ::-1]
 df['BBox'] = [i.numpy().round(2) for i in df['BBox']]
-#df.to_csv('out.csv', index=False)
 
-vals = []
+top = []
+middle = []
+bottom = []
+
 for i in range(df['BBox'].size):
   x1, y1, x2, y2 = df['BBox'][i][0], df['BBox'][i][1], df['BBox'][i][2], df['BBox'][i][3]
-  vals.append([((x2/2)+x1).round(2), ((y2/2)+y1).round(2)])
+  top.append([x1, y1])
+  middle.append([((x2/2)+x1).round(2), ((y2/2)+y1).round(2)])
+  bottom.append([x2, y2])
 
-df['Position'] = vals
+df['Top Left Point from [0,0]'] = top
+df['Bottom Right Point from [0,0]'] = bottom
+#df['Center Point from [0,0]'] = middle
 
+df.to_csv('./output/data.csv', index=False)
 print(df)
 
 
