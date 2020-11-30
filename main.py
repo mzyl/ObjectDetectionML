@@ -59,7 +59,7 @@ def prediction():
   #print(outputs["instances"].pred_classes)
   count = 0
   for i in outputs["instances"].pred_classes:
-    position_dict.update({outputs["instances"].pred_boxes[count] : v.metadata.thing_classes[i]})
+    position_dict.update({outputs["instances"].pred_boxes[count] : v.metadata.name[i]})
     #print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
     count+=1
   #print(outputs["instances"].pred_boxes)
@@ -93,7 +93,6 @@ v = postconfig()
 #train()
 prediction()
 
-'''
 # strip "Boxes" from tensor Bounding Box
 for i in position_dict.keys():
   for j in i:
@@ -122,4 +121,3 @@ df.to_csv('./output/data.csv', index=False)
 print(df)
 
 
-'''
