@@ -24,13 +24,13 @@ def preconfig():
   return Visualizer(img[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.0)
 
 def postconfig():
-  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final_raccoon.pth")
+  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
   cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
-  return Visualizer(img[:, :, ::-1], metadata=raccoon_metadata, scale=1.0)
+  return Visualizer(img[:, :, ::-1], metadata=tree_metadata, scale=1.0)
 
 
 def train():
-  cfg.DATASETS.TRAIN = ("raccoon_train",)
+  cfg.DATASETS.TRAIN = ("tree_train",)
   cfg.DATASETS.TEST = ()
   cfg.DATALOADER.NUM_WORKERS = 2
   cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml") # Let training initialize from model zoo
@@ -41,12 +41,13 @@ def train():
   cfg.SOLVER.MAX_ITER = 300 
   # faster, and good enought for this dataset (default: 512)
   cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 
-  # only has one class (raccoon)
+  # only has one class (tree)
   cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 
 
   os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
   trainer = DefaultTrainer(cfg)
   trainer.resume_or_load(resume=False)
+  trainer.train()
 
 
 def prediction():
@@ -71,9 +72,9 @@ input_path = "./input/image.jpg"
 output_path = "./output/a.out.jpg"
 img = cv2.imread(input_path)
 
-register_coco_instances("raccoon_train", {}, "raccoon/coco.json", "raccoon/images")
+register_coco_instances("tree_train", {}, "trees/train/coco.json", "trees/train/images")
 # register_coco_instances("my_dataset_val", {}, "json_annotation_val.json", "path/to/image/dir")
-raccoon_metadata = MetadataCatalog.get("raccoon_train")
+tree_metadata = MetadataCatalog.get("tree_train")
 
 cfg = get_cfg()
 cfg.MODEL.DEVICE='cpu'
@@ -84,12 +85,12 @@ position_dict = {}
 # new dictionary for storing original while removing "Boxes" leaving behind tensors
 new_dict = {}
 
-v = preconfig()
+#v = preconfig()
 #v = postconfig()
 
-#train()
-prediction()
-
+train()
+#prediction()
+'''
 # strip "Boxes" from tensor Bounding Box
 for i in position_dict.keys():
   for j in i:
@@ -119,4 +120,5 @@ print(df)
 
 
 
+'''
 
