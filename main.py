@@ -68,7 +68,7 @@ def prediction():
   return outputs
   
 
-input_path = "./input/image.jpg"
+input_path = "./trees/train/images/IMG_1873.JPG"
 output_path = "./output/a.out.jpg"
 img = cv2.imread(input_path)
 
@@ -86,10 +86,11 @@ position_dict = {}
 new_dict = {}
 
 #v = preconfig()
-#v = postconfig()
+v = postconfig()
 
-train()
-#prediction()
+#train()
+prediction()
+
 '''
 # strip "Boxes" from tensor Bounding Box
 for i in position_dict.keys():
@@ -119,6 +120,4 @@ df.to_csv('./output/data.csv', index=False)
 print(df)
 
 
-
 '''
-
