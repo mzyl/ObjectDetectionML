@@ -1,26 +1,26 @@
 <annotation>
 	<folder>images</folder>
-	<filename>IMG_1867.JPG</filename>
-	<path>/Users/max/Programming/Python/Facebook Detectron2/trees/train/images/IMG_1867.JPG</path>
+	<filename>IMG_1869.JPG</filename>
+	<path>/Users/max/Programming/Python/Facebook Detectron2/trees/train/images/IMG_1869.JPG</path>
 	<source>
 		<database>Unknown</database>
 	</source>
 	<size>
-		<width>526</width>
-		<height>236</height>
+		<width>1866</width>
+		<height>839</height>
 		<depth>3</depth>
 	</size>
 	<segmented>0</segmented>
 	<object>
 		<name>tree</name>
 		<pose>Unspecified</pose>
-		<truncated>1</truncated>
+		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>35</xmin>
-			<ymin>1</ymin>
-			<xmax>50</xmax>
-			<ymax>144</ymax>
+			<xmin>146</xmin>
+			<ymin>3</ymin>
+			<xmax>213</xmax>
+			<ymax>387</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -29,10 +29,10 @@
 		<truncated>1</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>96</xmin>
+			<xmin>213</xmin>
 			<ymin>1</ymin>
-			<xmax>176</xmax>
-			<ymax>202</ymax>
+			<xmax>405</xmax>
+			<ymax>600</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -41,10 +41,46 @@
 		<truncated>1</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>216</xmin>
+			<xmin>648</xmin>
 			<ymin>1</ymin>
-			<xmax>229</xmax>
-			<ymax>129</ymax>
+			<xmax>737</xmax>
+			<ymax>655</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>tree</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>789</xmin>
+			<ymin>2</ymin>
+			<xmax>837</xmax>
+			<ymax>566</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>tree</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>766</xmin>
+			<ymin>183</ymin>
+			<xmax>789</xmax>
+			<ymax>446</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>tree</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>913</xmin>
+			<ymin>5</ymin>
+			<xmax>957</xmax>
+			<ymax>437</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -53,10 +89,10 @@
 		<truncated>1</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>261</xmin>
+			<xmin>1005</xmin>
 			<ymin>1</ymin>
-			<xmax>272</xmax>
-			<ymax>131</ymax>
+			<xmax>1085</xmax>
+			<ymax>489</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -65,10 +101,10 @@
 		<truncated>1</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>339</xmin>
+			<xmin>1129</xmin>
 			<ymin>1</ymin>
-			<xmax>362</xmax>
-			<ymax>165</ymax>
+			<xmax>1200</xmax>
+			<ymax>439</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -77,22 +113,10 @@
 		<truncated>1</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>394</xmin>
+			<xmin>1218</xmin>
 			<ymin>1</ymin>
-			<xmax>417</xmax>
-			<ymax>145</ymax>
-		</bndbox>
-	</object>
-	<object>
-		<name>tree</name>
-		<pose>Unspecified</pose>
-		<truncated>1</truncated>
-		<difficult>0</difficult>
-		<bndbox>
-			<xmin>471</xmin>
-			<ymin>1</ymin>
-			<xmax>524</xmax>
-			<ymax>202</ymax>
+			<xmax>1377</xmax>
+			<ymax>611</ymax>
 		</bndbox>
 	</object>
 </annotation>
