@@ -25,9 +25,9 @@ def preconfig():
 
 def postconfig():
   cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
-  cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7
-  cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 
-  cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 
+  cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+  cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128 # needs to be the same as training setting
+  cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1 # needs to be the same as training setting
   return Visualizer(img[:, :, ::-1], metadata=tree_metadata, scale=1.0)
 
 
@@ -70,7 +70,7 @@ def prediction():
   return outputs
   
 
-input_path = "./trees/train/images/IMG_1873.JPG"
+input_path = "./trees/images original/IMG_1887.JPG"
 output_path = "./output/a.out.jpg"
 img = cv2.imread(input_path)
 
