@@ -90,13 +90,15 @@ def prediction():
   df['Bottom Right Point from [0,0]'] = bottom
   #df['Center Point from [0,0]'] = middle
 
-  df.to_csv('./output/data.csv', index=False)
+  #df.to_csv('./output/data.csv', index=False)
+  df.to_csv(os.path.splitext(output_path)[0]+'.csv', index=False)
   print(df)
 
   out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
   cv2.imwrite(output_path, out.get_image()[:, :, ::-1])
   return outputs
   
+
 
 input_path = "./trees/test/IMG_1883.JPG"
 output_path = "./output/a.out.jpg"
@@ -119,7 +121,19 @@ new_dict = {}
 v = postconfig()
 
 #train()
-prediction()
+#prediction()
+
+# batch run
+directory = r'trees/images original'
+for i in os.scandir(directory):
+  input_path = "./trees/images original/{}".format(i.name)
+  output_path = "./output/trees data/{}".format(i.name)
+  img = cv2.imread(input_path)
+  print(input_path, output_path)
+  position_dict = {}
+  new_dict = {}
+  v = postconfig()
+  prediction()
 
 
 
