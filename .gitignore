@@ -4,8 +4,9 @@ input/
 output/
 raccoon/annotations/
 raccoon/images/
+ServerRaccoon/
 balloon/
 
 *.swp
 .DS_Store
-
+cafe.csv
