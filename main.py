@@ -64,7 +64,7 @@ def prediction():
     #print(v.metadata.thing_classes[i], ":", outputs["instances"].pred_boxes[count])
     count+=1
   #print(outputs["instances"].pred_boxes)
-  print(position_dict)
+  #print(position_dict)
 
   # strip "Boxes" from tensor Bounding Box
   for i in position_dict.keys():
